@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daftar Mata Kuliah</title>
+  <link rel="manifest" href="app.webmanifest" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Daftar Mata Kuliah </h1>
+  </header>
+
+  <main>
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Mata Kuliah</th>
+            <th>SKS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Kecerdasan Buatan</td><td>2</td></tr>
+          <tr><td>2</td><td>Pemrograman Web Mobile</td><td>2</td></tr>
+          <tr><td>3</td><td>Data Mining</td><td>2</td></tr>
+          <tr><td>4</td><td>Pemrograman Android</td><td>2</td></tr>
+          <tr><td>5</td><td>Keamanan Jaringan</td><td>2</td></tr>
+          <tr><td>6</td><td>Interaksi Manusia & Komputer</td><td>2</td></tr>
+          <tr><td>7</td><td>Manajemen Proyek TI</td><td>2</td></tr>
+          <tr><td>8</td><td>Sistem Operasi</td><td>1</td></tr>
+          <tr><td>9</td><td>Etika Profesi</td><td>1</td></tr>
+          <tr><td>10</td><td>Komputasi Awan</td><td>2</td></tr>
+          <tr><td>11</td><td>Basis Data Lanjut</td><td>2</td></tr>
+          <tr><td>12</td><td>Statistik</td><td>1</td></tr>
+          <tr><td>13</td><td>Machine Learning</td><td>2</td></tr>
+          <tr><td>14</td><td>Riset Operasi</td><td>1</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="text-align: right;"><strong>Total SKS</strong></td>
+            <td><strong>24</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <section class="card">
+      <a class="btn" href="jadwal.html">Lihat Jadwal Kuliah</a>
+    </section>
+
+    <button id="installBtn" class="install-btn" hidden>Install Aplikasi</button>
+  </main>
+
+  <footer><p>&copy; 2025 Sistem Akademik</p></footer>
+
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.hidden = true;
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>

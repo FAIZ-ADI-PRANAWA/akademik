@@ -3,14 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <title>Jadwal Kuliah</title>
+
+  <!-- File CSS eksternal -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Font Awesome untuk ikon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <h1> Jadwal Kuliah</h1>
+    <h1><i class="fa-solid fa-calendar-days"></i> Jadwal Kuliah</h1>
   </header>
 
   <main>
+    <!-- Tabel menampilkan jadwal dari localStorage -->
     <section class="card">
       <table>
         <thead>
@@ -21,28 +28,72 @@
             <th>SKS</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>Senin</td><td>Kecerdasan Buatan</td><td>08:00 - 09:40</td><td>2</td></tr>
-          <tr><td>Senin</td><td>Etika Profesi</td><td>10:00 - 10:50</td><td>1</td></tr>
-          <tr><td>Selasa</td><td>Pemrograman Web Mobile</td><td>08:00 - 09:40</td><td>2</td></tr>
-          <tr><td>Selasa</td><td>Manajemen Proyek TI</td><td>10:00 - 11:40</td><td>2</td></tr>
-          <tr><td>Rabu</td><td>Data Mining</td><td>08:00 - 09:40</td><td>2</td></tr>
-          <tr><td>Rabu</td><td>Sistem Operasi</td><td>10:00 - 10:50</td><td>1</td></tr>
-          <tr><td>Kamis</td><td>Android</td><td>08:00 - 09:40</td><td>2</td></tr>
-          <tr><td>Kamis</td><td>Machine Learning</td><td>10:00 - 11:40</td><td>2</td></tr>
-          <tr><td>Jumat</td><td>Keamanan Jaringan</td><td>08:00 - 09:40</td><td>2</td></tr>
-          <tr><td>Jumat</td><td>Statistik</td><td>10:00 - 10:50</td><td>1</td></tr>
-          <tr><td>Sabtu</td><td>IMK</td><td>07:30 - 09:10</td><td>2</td></tr>
-          <tr><td>Sabtu</td><td>Basis Data Lanjut</td><td>09:30 - 11:10</td><td>2</td></tr>
-          <tr><td>Sabtu</td><td>Komputasi Awan</td><td>13:00 - 14:40</td><td>2</td></tr>
-          <tr><td>Sabtu</td><td>Riset Operasi</td><td>15:00 - 15:50</td><td>1</td></tr>
+        <tbody id="jadwalBody">
+          <!-- Baris akan diisi oleh JavaScript -->
         </tbody>
       </table>
     </section>
 
-    <a class="btn" href="index.html"> Kembali ke Daftar MK</a>
+    <!-- Tombol kembali -->
+    <a class="btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar MK</a>
   </main>
 
-  <footer><p>&copy; 2025 Sistem Akademik</p></footer>
+  <footer>
+    <p>&copy; 2025 Sistem Akademik</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const jadwal = JSON.parse(localStorage.getItem('daftarMatkul')) || [];
+    const tbody = document.getElementById('jadwalBody');
+
+    // Kelompokkan berdasarkan hari
+    const grupHari = {};
+
+    jadwal.forEach(item => {
+      if (!grupHari[item.hari]) {
+        grupHari[item.hari] = [];
+      }
+      grupHari[item.hari].push(item);
+    });
+
+    // Urutan hari tetap
+    const urutanHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+    urutanHari.forEach(hari => {
+      const matkulHari = grupHari[hari];
+      if (!matkulHari) return;
+
+      let totalSksHari = 0;
+
+      // Header hari
+      const rowHari = document.createElement('tr');
+      rowHari.classList.add('hari-row');
+      rowHari.innerHTML = `<td colspan="4"><i class="fa-solid fa-calendar-day"></i> ${hari}</td>`;
+      tbody.appendChild(rowHari);
+
+      // Data MK
+      matkulHari.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td></td>
+          <td>${item.nama}</td>
+          <td>${item.jam}</td>
+          <td>${item.sks}</td>
+        `;
+        tbody.appendChild(row);
+        totalSksHari += item.sks;
+      });
+
+      // Total SKS
+      const rowTotal = document.createElement('tr');
+      rowTotal.classList.add('total-sks-row');
+      rowTotal.innerHTML = `
+        <td colspan="3">Total SKS Hari ${hari}</td>
+        <td><strong>${totalSksHari}</strong></td>
+      `;
+      tbody.appendChild(rowTotal);
+    });
+  </script>
 </body>
 </html>

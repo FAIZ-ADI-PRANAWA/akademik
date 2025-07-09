@@ -2,7 +2,7 @@
 
 Aplikasi web sederhana berbasis HTML, CSS, dan JavaScript untuk mengelola daftar mata kuliah dan melihat jadwal kuliah. Dirancang dengan tampilan modern dan bisa diinstal sebagai Progressive Web App (PWA) di perangkat Android atau desktop.
 
-🧪 [🔗 Coba Demo Langsung di Sini](https://akademik-gamma.vercel.app/)
+🧪 [🔗 Coba Demo Langsung di Sini](https://akademik-62m4.vercel.app/)
 
 ## ✨ Fitur
 
